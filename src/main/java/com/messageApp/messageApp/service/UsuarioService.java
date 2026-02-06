@@ -1,5 +1,7 @@
 package com.messageApp.messageApp.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +19,9 @@ public class UsuarioService {
 
     public Usuario getUsuarioById(Long id) {
         return usuarioRepository.getReferenceById(id);
+    }
+
+    public Optional<Usuario> getUsuarioByNome(String nome) {
+        return usuarioRepository.findByNomeIgnoreCase(nome);
     }
 }

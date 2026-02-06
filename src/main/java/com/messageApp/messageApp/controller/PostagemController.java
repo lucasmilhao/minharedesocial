@@ -19,9 +19,10 @@ import com.messageApp.messageApp.postagem.PostagemRequestDTO;
 import com.messageApp.messageApp.postagem.PostagemResponseDTO;
 import com.messageApp.messageApp.service.PostagemService;
 import com.messageApp.messageApp.service.UsuarioService;
+import com.messageApp.messageApp.usuario.Usuario;
 
 @RestController
-@RequestMapping("usuarios/{idUsuario}/postagens")
+@RequestMapping("usuarios/{nomeUsuario}/postagens")
 public class PostagemController {
     @Autowired
     private PostagemRepository postagemRepository;
@@ -33,19 +34,23 @@ public class PostagemController {
     private PostagemService postagemService;
 
     @GetMapping
-    public List<PostagemResponseDTO> getAll (@PathVariable Long idUsuario) {
+    public ResponseEntity<List<PostagemResponseDTO>> getAll (@PathVariable String nomeUsuario) {
+        Usuario usuario = usuarioService.getUsuarioByNome(nomeUsuario).orElse(null);
+
+        if(usuario == null) return ResponseEntity.notFound().build();
+        
         List<PostagemResponseDTO> listaPostagens = postagemRepository
-        .findByPoster(usuarioService.getUsuarioById(idUsuario))
+        .findByPoster(usuario)
         .stream()
         .map(PostagemResponseDTO::new)
         .toList();
         
-        return listaPostagens;
+        return ResponseEntity.ok(listaPostagens);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostagemResponseDTO> getPostagem(@PathVariable Long idUsuario, @PathVariable Long id) {
-        Postagem post = postagemService.verificarCaminhoPostagem(idUsuario, id);
+    public ResponseEntity<PostagemResponseDTO> getPostagem(@PathVariable String nomeUsuario, @PathVariable Long id) {
+        Postagem post = postagemService.verificarCaminhoPostagem(nomeUsuario, id);
 
         if(post == null) return ResponseEntity.notFound().build();
 
@@ -62,20 +67,22 @@ public class PostagemController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostagemResponseDTO> editarPostagem(@PathVariable Long idUsuario, @PathVariable Long id, @RequestBody PostagemRequestDTO data) {
-        Postagem post = postagemService.verificarCaminhoPostagem(idUsuario, id);
+    public ResponseEntity<PostagemResponseDTO> editarPostagem(@PathVariable String nomeUsuario, @PathVariable Long id, @RequestBody PostagemRequestDTO data) {
+        Postagem post = postagemService.verificarCaminhoPostagem(nomeUsuario, id);
 
         if(post == null) return ResponseEntity.notFound().build();
         
         if(data.descricao() != null && !data.descricao().isBlank()) post.setDescricao(data.descricao());
 
+        postagemRepository.save(post);
+
         return ResponseEntity.ok(new PostagemResponseDTO(post));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarPostagem(@PathVariable Long idUsuario, @PathVariable Long id) {
+    public ResponseEntity<Void> deletarPostagem(@PathVariable String nomeUsuario, @PathVariable Long id) {
 
-        Postagem post = postagemService.verificarCaminhoPostagem(idUsuario, id);
+        Postagem post = postagemService.verificarCaminhoPostagem(nomeUsuario, id);
 
         if(post == null) return ResponseEntity.notFound().build();
 

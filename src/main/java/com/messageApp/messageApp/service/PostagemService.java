@@ -28,13 +28,16 @@ public class PostagemService {
         return postagemRepository.save(post);
     }
 
-    public Postagem verificarCaminhoPostagem(Long idUsuario, Long idPostagem) {
+    public Postagem verificarCaminhoPostagem(String nomeUsuario, Long idPostagem) {
+        Usuario user = usuarioRepository.findByNomeIgnoreCase(nomeUsuario).orElseThrow(() -> new RuntimeException());
+
         if(!postagemRepository.existsById(idPostagem)) return null;
+        if(user == null) return null;
 
         
         Postagem post = postagemRepository.getReferenceById(idPostagem);
 
-        if(!post.getPoster().getId().equals(idUsuario)) {
+        if(!post.getPoster().getId().equals(user.getId())) {
             return null;
         }
 

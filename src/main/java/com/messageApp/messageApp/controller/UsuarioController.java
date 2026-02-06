@@ -35,13 +35,13 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDTO> getUser(@PathVariable Long id) {
-        if(usuarioRepository.findById(id).isEmpty()) {
+    @GetMapping("/{nome}")
+    public ResponseEntity<UsuarioResponseDTO> getUser(@PathVariable String nome) {
+        if(usuarioRepository.findByNomeIgnoreCase(nome).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        Usuario user = usuarioRepository.getReferenceById(id);
+        Usuario user = usuarioRepository.findByNomeIgnoreCase(nome).orElseThrow(() -> new RuntimeException());
         return ResponseEntity.ok(new UsuarioResponseDTO(user));
     }
 
