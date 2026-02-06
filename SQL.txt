@@ -1,0 +1,37 @@
+CREATE DATABASE messageApp;
+USE messageApp;
+
+CREATE TABLE usuario (
+id_usuario bigint primary key not null auto_increment,
+nome varchar(60),
+email varchar(100),
+senha varchar(60)
+);
+
+CREATE TABLE mensagem (
+id bigint primary key not null auto_increment,
+mensagem varchar(250),
+id_sender bigint,
+id_receiver bigint,
+
+CONSTRAINT fk_id_sender FOREIGN KEY (id_sender) REFERENCES usuario(id_usuario),
+CONSTRAINT fk_id_receiver FOREIGN KEY (id_receiver) REFERENCES usuario(id_usuario)
+);
+
+CREATE TABLE postagem (
+id_postagem bigint primary key not null auto_increment,
+imagem varchar(250),
+descricao varchar(100),
+curtidas int,
+id_poster bigint,
+
+CONSTRAINT fk_id_poster FOREIGN KEY (id_poster) REFERENCES usuario(id_usuario)
+);
+
+CREATE TABLE comentarios (
+id_comentario bigint primary key auto_increment,
+comentario varchar(250),
+id_post long,
+
+CONSTRAINT fk_id_post FOREIGN KEY (id_post) REFERENCES postagem(id_postagem)
+);
