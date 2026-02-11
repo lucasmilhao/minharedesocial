@@ -1,10 +1,12 @@
 package com.messageApp.messageApp.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +21,7 @@ import com.messageApp.messageApp.usuario.UsuarioRepository;
 import com.messageApp.messageApp.usuario.UsuarioRequestDTO;
 import com.messageApp.messageApp.usuario.UsuarioResponseDTO;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -30,9 +33,16 @@ public class UsuarioController {
         if(data.nome() == null || data.email() == null || data.senha() == null) {
             return ResponseEntity.badRequest().build();
         }
-        Usuario user = new Usuario(data);
-        usuarioRepository.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        Optional<Usuario> verEmail = usuarioRepository.findByEmailIgnoreCase(data.email());
+        Optional<Usuario> verNome = usuarioRepository.findByNomeIgnoreCase(data.nome());
+
+        if(verEmail.isEmpty() && verNome.isEmpty()) {
+            Usuario user = new Usuario(data);
+            usuarioRepository.save(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/{nome}")

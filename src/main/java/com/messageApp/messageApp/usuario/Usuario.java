@@ -25,6 +25,8 @@ public class Usuario {
     private String nome;
     private String email;
     private String senha;
+    @Column(name="foto_perfil")
+    private String fotoPerfil;
 
     public Usuario(UsuarioRequestDTO request) {
         this.nome = request.nome();

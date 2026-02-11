@@ -1,7 +1,7 @@
 package com.messageApp.messageApp.usuario;
 
-public record UsuarioResponseDTO(Long id, String nome, String email, String senha) {
+public record UsuarioResponseDTO(Long id, String nome, String email, String senha, String fotoPerfil) {
     public UsuarioResponseDTO(Usuario user) {
-        this(user.getId(), user.getNome(), user.getEmail(), user.getSenha());
+        this(user.getId(), user.getNome(), user.getEmail(), user.getSenha(), user.getFotoPerfil());
     }
 }

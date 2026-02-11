@@ -1,12 +1,16 @@
 package com.messageApp.messageApp.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.messageApp.messageApp.postagem.Postagem;
 import com.messageApp.messageApp.postagem.PostagemRepository;
 import com.messageApp.messageApp.postagem.PostagemRequestDTO;
+import com.messageApp.messageApp.postagem.PostagemResponseDTO;
 import com.messageApp.messageApp.usuario.Usuario;
 import com.messageApp.messageApp.usuario.UsuarioRepository;
 
@@ -18,14 +22,20 @@ public class PostagemService {
     @Autowired
     private PostagemRepository postagemRepository;
 
-    public Postagem criarPostagem(@RequestBody PostagemRequestDTO dto, Long idUsuario) {
+    public ResponseEntity<PostagemResponseDTO> criarPostagem(@RequestBody PostagemRequestDTO dto, String nomeUsuario) {
         
-        Usuario user = usuarioRepository.getReferenceById(idUsuario);
-
+        Usuario user = usuarioRepository.findByNomeIgnoreCase(nomeUsuario).orElseThrow(() -> new RuntimeException());   
+        
         Postagem post = new Postagem(dto);
         post.setPoster(user);
 
-        return postagemRepository.save(post);
+        postagemRepository.save(post);
+
+        return ResponseEntity.ok(new PostagemResponseDTO(post));
+    }
+
+    public List<PostagemResponseDTO> getAll() {
+        return postagemRepository.findAll().stream().map(PostagemResponseDTO::new).toList();
     }
 
     public Postagem verificarCaminhoPostagem(String nomeUsuario, Long idPostagem) {
