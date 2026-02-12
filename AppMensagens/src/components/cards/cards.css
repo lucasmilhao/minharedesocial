@@ -21,11 +21,6 @@
         background-color: rgb(46, 46, 46);
         padding: 10px;
         
-        &:hover {
-            /* transform: scale(1.03); */
-            border: 1px solid #535bf2;
-        }
-        
         img {
             width: 250px;
             height: 200px ;

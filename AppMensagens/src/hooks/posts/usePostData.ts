@@ -6,7 +6,14 @@ import { useQuery } from "@tanstack/react-query";
 const API_URL = "http://localhost:8080";
 
 const fetchData = async (): AxiosPromise<PostData[]> => {
-    const response = axios.get(API_URL + "/feed")
+    const token = localStorage.getItem("authToken");
+
+    const response = axios.get(API_URL + "/feed", {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+    
     return response;
 }
 

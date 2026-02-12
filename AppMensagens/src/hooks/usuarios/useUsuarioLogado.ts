@@ -1,13 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import type { UsuarioData } from "../../interface/UsuarioData";
-import { useParams } from "react-router-dom";
+import axios from "axios";
 const API_URL = "http://localhost:8080";
 
-const fetchData = async (nomeUsuario : string) => {
+const fetchData = async () => {
     const token = localStorage.getItem("authToken");
 
-    const response = await axios.get<UsuarioData>(API_URL + "/usuarios/" + nomeUsuario, {
+    const response = await axios.get<UsuarioData>(API_URL + "/usuarios/me", {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -15,12 +14,11 @@ const fetchData = async (nomeUsuario : string) => {
     return response.data;
 }
 
-export function useUsuarioData() {
-    const {nomeUsuario} = useParams();
+export function useUsuarioLogado() {
 
     const query = useQuery({
-        queryFn : () => fetchData(nomeUsuario!),
-        queryKey : ['usuario-data', nomeUsuario],
+        queryFn : fetchData,
+        queryKey : ['usuario-data'],
         retry : 2
     })
 

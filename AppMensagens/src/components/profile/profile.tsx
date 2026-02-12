@@ -12,7 +12,6 @@ export function Profile({imagem, nome, email} : ProfileProps) {
                 <h1>{nome}</h1>
                 <h3>{email}</h3>
             </div>
-
         </div>
     )
 }
