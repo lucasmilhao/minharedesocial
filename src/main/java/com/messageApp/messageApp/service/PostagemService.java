@@ -3,7 +3,6 @@ package com.messageApp.messageApp.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -22,16 +21,14 @@ public class PostagemService {
     @Autowired
     private PostagemRepository postagemRepository;
 
-    public ResponseEntity<PostagemResponseDTO> criarPostagem(@RequestBody PostagemRequestDTO dto, String nomeUsuario) {
+    public Postagem criarPostagem(@RequestBody PostagemRequestDTO dto, String nomeUsuario) {
         
-        Usuario user = usuarioRepository.findByNomeIgnoreCase(nomeUsuario).orElseThrow(() -> new RuntimeException());   
-        
+        Usuario user = usuarioRepository.findByNomeIgnoreCase(nomeUsuario).orElseThrow(() -> new RuntimeException());
+
         Postagem post = new Postagem(dto);
         post.setPoster(user);
 
-        postagemRepository.save(post);
-
-        return ResponseEntity.ok(new PostagemResponseDTO(post));
+        return postagemRepository.save(post);
     }
 
     public List<PostagemResponseDTO> getAll() {

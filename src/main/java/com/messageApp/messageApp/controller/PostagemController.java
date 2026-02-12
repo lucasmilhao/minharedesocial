@@ -22,9 +22,9 @@ import com.messageApp.messageApp.service.PostagemService;
 import com.messageApp.messageApp.service.UsuarioService;
 import com.messageApp.messageApp.usuario.Usuario;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin("http://localhost:5173/")
 @RestController
-@RequestMapping("usuarios/{nomeUsuario}/postagens")
+@RequestMapping("/usuarios/{nomeUsuario}/postagens")
 public class PostagemController {
     @Autowired
     private PostagemRepository postagemRepository;
@@ -61,7 +61,10 @@ public class PostagemController {
 
     @PostMapping
     public ResponseEntity<PostagemResponseDTO> criarPostagem (@RequestBody PostagemRequestDTO data, @PathVariable String nomeUsuario) {
-        return postagemService.criarPostagem(data, nomeUsuario);
+
+
+        Postagem post = postagemService.criarPostagem(data, nomeUsuario);
+        return ResponseEntity.ok(new PostagemResponseDTO(post));
     }
 
     @PutMapping("/{id}")
