@@ -1,0 +1,1 @@
+Todo e qualquer progresso feito nessa api foi na base de muito sono e muitas horas sem saber o que eu estava fazendo direito, peço desculpas pelo estado que a api apresenta mas eu prometo que vou deixar ela bonita
