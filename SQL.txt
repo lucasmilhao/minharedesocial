@@ -31,7 +31,7 @@ CONSTRAINT fk_id_poster FOREIGN KEY (id_poster) REFERENCES usuario(id_usuario)
 CREATE TABLE comentarios (
 id_comentario bigint primary key auto_increment,
 comentario varchar(250),
-id_post long,
+id_post bigint,
 
 CONSTRAINT fk_id_post FOREIGN KEY (id_post) REFERENCES postagem(id_postagem)
 );
