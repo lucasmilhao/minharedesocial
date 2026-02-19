@@ -32,7 +32,11 @@ public class PostagemService {
     }
 
     public List<PostagemResponseDTO> getAll() {
-        return postagemRepository.findAll().stream().map(PostagemResponseDTO::new).toList();
+        return postagemRepository.findAll().stream().map(PostagemResponseDTO::new).toList().reversed();
+    }
+
+    public List<PostagemResponseDTO> getAll(Usuario user) {
+        return postagemRepository.findByPoster(user).stream().map(PostagemResponseDTO::new).toList().reversed();
     }
 
     public Postagem verificarCaminhoPostagem(String nomeUsuario, Long idPostagem) {

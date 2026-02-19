@@ -25,8 +25,8 @@ public class Usuario {
     private String nome;
     private String email;
     private String senha;
-    @Column(name= "foto_perfil")
-    private String fotoPerfil;
+    @Column(name= "foto_perfil", nullable=false)
+    private String fotoPerfil = "./src/default.webp";
 
     public Usuario(UsuarioRequestDTO request) {
         this.nome = request.nome();

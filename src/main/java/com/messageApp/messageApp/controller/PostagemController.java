@@ -41,11 +41,7 @@ public class PostagemController {
 
         if(usuario == null) return ResponseEntity.notFound().build();
         
-        List<PostagemResponseDTO> listaPostagens = postagemRepository
-        .findByPoster(usuario)
-        .stream()
-        .map(PostagemResponseDTO::new)
-        .toList();
+        List<PostagemResponseDTO> listaPostagens = postagemService.getAll(usuario);
         
         return ResponseEntity.ok(listaPostagens);
     }

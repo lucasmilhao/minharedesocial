@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.messageApp.messageApp.infra.security.TokenService;
 import com.messageApp.messageApp.usuario.Usuario;
+import com.messageApp.messageApp.usuario.UsuarioPutRequestDTO;
 import com.messageApp.messageApp.usuario.UsuarioRepository;
 import com.messageApp.messageApp.usuario.UsuarioRequestDTO;
 import com.messageApp.messageApp.usuario.UsuarioResponseDTO;
@@ -69,13 +70,12 @@ public class UsuarioController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDTO> editarUsuario(@PathVariable Long id, @RequestBody UsuarioRequestDTO data) {
-        return usuarioRepository.findById(id).map(
+    @PutMapping("/me")
+    public ResponseEntity<UsuarioResponseDTO> editarUsuario(@AuthenticationPrincipal Usuario usuario, @RequestBody UsuarioPutRequestDTO data) {
+        return usuarioRepository.findById(usuario.getId()).map(
             user -> {
                 if(data.nome() != null && !data.nome().isBlank()) user.setNome(data.nome());
-                if(data.email() != null && !data.email().isBlank()) user.setEmail(data.email());
-                if(data.senha() != null && !data.senha().isBlank()) user.setSenha(data.senha());
+                if(data.fotoPerfil() != null && !data.fotoPerfil().isBlank()) user.setFotoPerfil(data.fotoPerfil());
                 usuarioRepository.save(user);
                 return ResponseEntity.ok(new UsuarioResponseDTO(user));
             }).orElseGet(() -> ResponseEntity.notFound().build());
