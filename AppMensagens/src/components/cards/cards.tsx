@@ -15,7 +15,7 @@ export function Card({ descricao, imagem, poster } : CardProps) {
         <div className="container">
             <div className="card">
                 <div className="head">
-                        <img onClick={() => navigate("/" + poster.nome)} src={poster.fotoPerfil} alt="" className="foto-perfil" />
+                        <img onClick={() => navigate("/" + poster.nome)} src={poster.fotoPerfil} alt="" id="user" className="foto-perfil" />
                         <h2 onClick={() => navigate("/" + poster.nome)}>{poster.nome}</h2>
                     </div>
                 <div className="conteudo">

@@ -1,0 +1,39 @@
+
+
+header {
+    display: flex;
+    position: sticky;
+    top: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    z-index: 1000;
+
+    .btn-add {
+        position: absolute;
+        left: 25px;
+        font-weight: bolder;
+        font-size: large;
+    }
+
+    img {
+        height: 90px;
+
+    }
+
+}
+.user {
+    transition-duration: 0.2s;
+    position: absolute;
+    border: 2px solid transparent;
+    right: 60px;
+    border-radius: 50%;
+    height: 70px;
+    width: 70px;
+
+    &:hover {
+        transform: scale(1.03);
+        border-color: blueviolet;
+        cursor: pointer;
+    }
+}

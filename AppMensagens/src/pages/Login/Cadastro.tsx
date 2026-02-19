@@ -52,7 +52,8 @@ export function Cadastro() {
                     <p>Deve haver no mínimo 8 caracteres.</p>
                 </div>
 
-                <button onClick={submit}>{isPending? "Criando conta..." : "Criar conta"}</button>
+                <button id="submit" onClick={submit}>{isPending? "Criando conta..." : "Criar conta"}</button>
+                <p>Já tem uma conta? <a id="link-login" title="login" href="/auth/login">Entrar</a> </p>
             </div>
         </div>
     </div>

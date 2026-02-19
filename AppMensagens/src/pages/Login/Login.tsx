@@ -45,8 +45,9 @@ export function Login() {
                     <label htmlFor="senha">Senha*</label>
                     <input type="password" placeholder="Digite sua senha" name="senha" id="senha" value={senha} onChange={e => setSenha(e.target.value)}></input>
                 </div>
+                <p>ainda não tem uma conta? <a title="cadastro" id="link-cadastro" href="/auth/register">Cadastre-se</a> </p>
 
-                <button onClick={submit}>{isPending? "Fazendo login..." : "Entrar"}</button>
+                <button id="submit" onClick={submit}>{isPending? "Fazendo login..." : "Entrar"}</button>
             </div>
         </div>
     </div>
